@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Home</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+</head>
+<body>
+  <section class="section">
+    <div class="container">
+      <div>
+
+        <script>
+          // Script for changing the tab
+          function openTab(evt, tabName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " is-active";
+          }
+        </script>
+
+        <h1 class="title"><a href="{% url 'home' %}">eICU Management System</a></h1>
+
+        {% if user.is_authenticated %}
+          {% if perms.query.view_graph %}
+            {% if perms.main.can_delete_user %}
+              <p>You are login, Welcome Admin: <a href="#">{{ user.username }}</a></p>
+            {% else %}
+              <p>You are login, Welcome Doctor: <a href="#">{{ user.username }}</a></p>
+            {% endif %}
+            <div>
+              <button class="btn btn-default"><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></button>
+              <button class="btn btn-default"><a href="{% url 'password_change' %}?next={{ request.path }}">Change Password</a></button>
+            </div>
+            <div class="column"></div>
+            <div class="tabs">
+              <ul>
+                <li class="tablinks is-active" onclick="openTab(event, 'insertion')"><a>Insertion</a></li>
+                {% if perms.main.can_delete_user%}
+                  <li class="tablinks" onclick="openTab(event, 'deletion')"><a>Deletion</a></li>
+                {% else %}
+                  <li class="tablinks" onclick="openTab(event, 'update')"><a>Update</a></li>
+                {% endif %}
+                <li class="tablinks" onclick="openTab(event, 'query')"><a>Query</a></li>
+                <li class="tablinks" onclick="openTab(event, 'statistics')"><a>Statistics</a></li>
+              </ul>
+            </div>
+
+            <div id="insertion" class="tabcontent" >
+              <h2 class="title is-4">Add a New Patient</h2>
+              <p>You can add a new patient. A patient ID will be automatically generated. </p>
+              <br>
+              <form action="{% url 'new_patient' %}">
+                <!-- <input type="submit" name="" value="Add a Patient"> -->
+                <button class="button is-link is-small" type="submit" name="" value="Add a Patient">Add a Patient</button>
+              </form>
+              <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+                <h2 class="title is-4">Add a New Stay</h2>
+              <p>Or you can add a stay for an existing patient. Data won't be changed by leaving space. </p>
+              <br>
+
+              <body>
+                
+                <form action="{% url 'new_stay' %}">
+                  <label class="label"> Patient ID </label>
+                  <input type="text" name="ptid" value=""><br>
+                  <br>
+                  <label class="label"> Age </label>
+                  <input type="number" name="new_age" value=""><br>
+                  <br>
+                  <label class="label"> Gender </label>
+                  <input type="text" name="new_gender" value=""><br>
+                  <br>
+                  <label class="label"> Ethnicity </label>
+                  <input type="text" name="new_ethnicity" value=""><br>
+                  <br>
+                  <label class="label"> Admission Weight (kg) </label>
+                  <input type="number" name="new_admisionweight" value=""><br>
+                  <br>
+                  <label class="label"> Admission Heights (cm) </label>
+                  <input type="number" name="new_admisionheight" value=""><br>
+                  <br>
+                  <label class="label"> Unit Type  </label>
+                  <input type="text" name="new_unittype" value=""><br>
+                  <br>
+                  <label class="label"> Discharge Status </label>
+                  <input type="text" name="new_dischargestatus" value=""><br>
+                  <br>
+                  <div class="control">
+                    <button class="button is-link is-small" type="submit" name="" value="Add a Stay">Add a Stay</button>
+                  </div>
+                </form>
+
+                <!-- Script for pop out info -->
+                {% if messages %}
+                  <script>
+                    {% for message in messages %}
+                      alert('{{ message.message }}');
+                    {% endfor %}
+                  </script>
+                {% endif %}
+              
+              <br>
+              <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+              <h2 class="title is-4">Add Data to an existing Stay</h2>
+              <p>Or you can add data for an existing stay. </p>
+              <br>
+              {%if no_stay %}
+                <b>Please input a valid stay ID!</b>
+                <br>
+              {%endif%}
+              <body>
+                <form action="{% url 'new_data' %}">
+                  <label class="label"> Stay ID </label>
+                  <input type="text" name="stayid" value=""><br>
+                  <br>
+                  <label class="label"> Data field you want to add </label>
+                  
+                  <div class="select">
+                    <select name='datafield'>
+                      <option value="diagnosis">Diagnosis</option>
+                      <option value="lab">Lab</option>
+                      <option value="microlab">Microlab</option>
+                      <option value="medication">Medication</option>
+                      <option value="allergy">Allergy</option>
+                    </select>
+                  </div>
+                  <br>
+                  <br>
+                  <button class="button is-link is-small" type="submit" name="" value="Add Data to this Stay">Add Data to this Stay</button>
+                </form>
+                <br>
+            </div>
+
+            {% if perms.main.can_delete_user%}
+              <div id="deletion" class="tabcontent" style="display:none">
+                <h2 class="title is-4">Delete a Patient</h2>
+                <form action="{% url 'delete_pt' %}">
+                  <label class="label"> Patient Id </label>
+
+                  <div class="field has-addons">
+                    <div class="control">
+                      <input class="input" type="text" name="ptid" value="" placeholder="Patient ID"><br>
+                    </div>
+                    <div class="control">
+                      <button class="button is-danger" type="submit" name="" value="Delete a Patient">
+                        Delete
+                      </button>
+                    </div>
+                  </div>
+
+                </form>
+
+                {% if messages %}
+                  <script>
+                    {% for message in messages %}
+                      alert('{{ message.message }}');
+                    {% endfor %}
+                  </script>
+                {% endif %}
+                
+                <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+                <br>
+                <h2 class="title is-4">Delete a Patient's Stay Record</h2>
+                <p>You can also delete a single stay from a patient.</p><br>
+                <form action="{% url 'delete_stay' %}">
+                    <div class="field has-addons">
+                      <div class="control">
+                        <input class="input" type="text" name="ptid" value="" placeholder="Patient ID"><br>
+                      </div>
+                      <div class="control">
+                        <button class="button is-link" type="submit" name="" value="Select a Patient">
+                          Search
+                        </button>
+                      </div>
+                    </div>
+                </form>
+              </div>
+            {% else %}
+              <div id="update" class="tabcontent" style="display:none">
+                <h2 class="title is-4">Update Data</h2>
+                <p>Provide the stay id to find the record you want to modify.</p>
+                <br>
+                  <form action="{% url 'modify_data' %}">
+                    <label class="label"> Stay ID </label>
+                    <input type="text" name="stayid" value=""><br>
+                    <br>
+                    <label class="label"> Data field you want to modify </label>
+                    <div class="select">
+                      <select name='datafield'>
+                        <option value="diagnosis">Diagnosis</option>
+                        <option value="lab">Lab</option>
+                        <option value="microlab">Microlab</option>
+                        <option value="medication">Medication</option>
+                        <option value="allergy">Allergy</option>
+                      </select>
+                    </div>
+                    <br>
+                    <br>
+                    <button class="button is-link is-small" type="submit" name="" value="Modified this Stay">Modified this Stay</button>
+                  </form>
+                  <br>
+              </div>
+            {% endif %}
+
+            <div id="query" class="tabcontent" style="display:none">
+              <h2 class="title is-4">Query Patient Stay Information</h2>
+              <form action="{% url 'pt_result' %}">
+                <label class="label"> Patient Id  </label>
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input" type="text" name="query_id" value="" placeholder="Patient ID"><br>
+                  </div>
+                  <div class="control">
+                    <button class="button is-link" type="submit" name="" value="Query">
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+            <div id="statistics" class="tabcontent" style="display:none">
+              {% if icd_invalid %}
+              Please input a valid ICD9 Code! <br><br>
+              {% endif %}
+              <h2 class="title is-4"> Visualize Patients' Demographics.</h2>
+              <p>Input a disease to visualize its' demographics.</p>
+              <br>
+              <form action="{% url 'icd_demograph' %}">
+                <label class="label">ICD9 Code</label>
+                <input type="text" name="icd9code" value="">
+                <br>
+                <br>
+                <button class="button is-link is-small" type="submit" name="" value="Visualize">Visualize</button>
+              </form>
+              <HR style="FILTER: alpha(opacity=100,finishopacity=0,style=3)" width="80%" color=#987cb9 SIZE=3>
+              <h2 class="title is-4"> Visualize Disease Distribution</h2>
+              <p> Select a group to check disease distribution. </p>
+              <br>
+              <form action="{% url 'patients_disease' %}">
+                <label class="label">Gender</label>
+                <select name='gender'>
+                    <option value="">Unknown</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select><br>
+                <br>
+                <label class="label">Ethnicity</label>
+                <select name='ethnicity'>
+                    <option value="">Unknown</option>
+                    <option value="Caucasian">Caucasian</option>
+                    <option value="African American">African American</option>
+                    <option value="Hispanic">Hispanic</option>
+                    <option value="Asian">Asian</option>
+                </select><br>
+                <br>
+                <label class="label">Age Range</label> 
+                <input type="number" name="min_age" value="10" min="10" max="90"> to <input type="number" name="max_age" value="90" min="10" max="90"><br>
+                <br>
+                <button class="button is-link is-small" type="submit" name="" value="Visualize">Visualize</button>
+              </form>
+            </div>
+
+            <div class="column"></div>
+
+            
+
+          {% else %}
+            <p>You are login, Welcome Patient: <a href="#">{{ user.username }}</a></p>
+            <div>
+              <button class="btn btn-default"><a href="{% url 'logout' %}?next={{ request.path }}">Logout</a></button>
+              <button class="btn btn-default"><a href="{% url 'password_change' %}?next={{ request.path }}">Change Password</a></button>
+            </div>
+
+            <div class="column"></div>
+            <div class="tabs">
+              <ul>
+                <li class="tablinks is-active" onclick="openTab(event, 'query')"><a>Query</a></li>
+              </ul>
+            </div>
+
+            <div id="query" class="tabcontent" >
+              <h2 class="title is-4">Query Patient Stay Information</h2>
+              <form action="{% url 'pt_result' %}">
+
+                <label class="label"> Patient Id  </label>
+                <div class="field has-addons">
+                  <div class="control">
+                    <input class="input" type="text" name="query_id" value="" placeholder="Patient ID"><br>
+                  </div>
+                  <div class="control">
+                    <button class="button is-link" type="submit" name="" value="Query">
+                      Search
+                    </button>
+                  </div>
+                </div>
+                
+              </form>
+            </div>
+
+            <div class="column"></div>
+
+          {% endif %}
+
+        {% else %}
+          <p>You have not yet Login, Please
+              <button class="btn btn-default"><a href="{% url 'login' %}?next={{ request.path }}">Login</a></button>
+              Or
+              <button class="btn btn-default"><a href="{% url 'users:register' %}">Register</a></button>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

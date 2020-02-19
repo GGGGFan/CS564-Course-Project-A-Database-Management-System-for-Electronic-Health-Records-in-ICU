@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+      <meta charset="utf-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+      <title>Home</title>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+      <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title"><a href="{% url 'index' %}">eICU Management System</a></h1>
+
+        {% if perms.query.view_graph %}
+          {% if perms.main.can_delete_user %}
+            <p>You are login, Welcome Admin: <a href="#">{{ user.username }}</a></p>
+          {% else %}
+            <p>You are login, Welcome Doctor: <a href="#">{{ user.username }}</a></p>
+          {% endif %}
+        {% else %}
+          <p>You are login, Welcome Patient: <a href="#">{{ user.username }}</a></p>
+        {% endif %}
+
+
+        <br>
+        {% if perms.query.view_graph %}
+          <div class="tabs">
+            <ul>
+                <li class="tablinks is-active"><a>Insertion</a></li>
+                {% if perms.main.can_delete_user%}
+                  <li class="tablinks"><a>Deletion</a></li>
+                {% else %}
+                  <li class="tablinks"><a>Update</a></li>
+                {% endif %}
+                <li class="tablinks"><a>Query</a></li>
+                <li class="tablinks"><a>Statistics</a></li>
+            </ul>
+          </div>
+        {% else %}
+          <div class="tabs">
+            <ul>
+              <li class="tablinks is-active"><a>Query</a></li>
+            </ul>
+          </div>
+        {% endif %}
+
+        Successfully added!
+        <div class="container">
+          Stay ID: {{stayid}}
+          <br>
+          Patient ID: {{ptid}}
+          <br>
+          Gender: {{new_gender}}
+          <br>
+          Age: {{new_age}}
+          <br>
+          Ethnicity: {{new_ethnicity}}
+          <br>
+          Weight: {{new_admisionweight}}
+          <br>
+          Heights: {{new_admisionheight}}
+          <br>
+          Unit Type: {{new_unittype}}
+          <br>
+          Unit Discharge Status: {{new_dischargestatus}}
+          <br>
+          <input type=button value="Back" onClick="javascript:history.go(-1);">
+        </div>
+    </section>
+  </body>
+</html>

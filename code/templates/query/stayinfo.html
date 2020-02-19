@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <title></title>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <script>
+          function openTab(evt, tabName) {
+            var i, x, tablinks;
+            x = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < x.length; i++) {
+                x[i].style.display = "none";
+            }
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < x.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" is-active", "");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " is-active";
+          }
+        </script>
+
+        <h1 class="title"><a href="{% url 'index' %}">eICU Management System</a></h1>
+
+        {% if perms.query.view_graph %}
+          {% if perms.main.can_delete_user %}
+            <p>You are login, Welcome Admin: <a href="#">{{ user.username }}</a></p>
+          {% else %}
+            <p>You are login, Welcome Doctor: <a href="#">{{ user.username }}</a></p>
+          {% endif %}
+        {% else %}
+          <p>You are login, Welcome Patient: <a href="#">{{ user.username }}</a></p>
+        {% endif %}
+
+        <br>
+        <div class="tabs">
+          <ul>
+            <li class="tablinks is-active" onclick="openTab(event, 'patient')"><a>Patient</a></li>
+            <li class="tablinks" onclick="openTab(event, 'diagnosis')"><a>Diagnosis</a></li>
+            <li class="tablinks" onclick="openTab(event, 'lab')"><a>Lab</a></li>
+            <li class="tablinks" onclick="openTab(event, 'microlab')"><a>MicroLab</a></li>
+            <li class="tablinks" onclick="openTab(event, 'medication')"><a>Medication</a></li>
+            <li class="tablinks" onclick="openTab(event, 'allergy')"><a>Allergy</a></li>
+          </ul>
+        </div>
+
+        <div id="patient" class="tabcontent">
+          Stay ID: {{stayid}}
+          <br>
+          Patient ID: {{pid}}
+          <br>
+          Gender: {{gender}}
+          <br>
+          Age: {{age}}
+          <br>
+          Ethnicity: {{ethnicity}}
+          <br>
+          Weight: {{weight}}
+          <br>
+          Heights: {{height}}
+          <br>
+          Unit Type: {{unittype}}
+          <br>
+          Unit Discharge Status: {{status}}
+          <br>
+          <br>
+        </div>
+        
+        <div id="diagnosis" class="tabcontent" style="display:none">
+          <p>* If the table is empty, meaning that there is no record in related tab</p>
+          <table class="table">
+            <thead>
+              <th>DiagnosisOffset</th>
+              <th>ICD9Code</th>
+            </thead>
+            <tbody>
+              {% for i in diagnosis %}
+                <tr>
+                  <td>{{ i.diagnosisoffset}}</td>
+                  <td>{{ i.icd9code }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="lab" class="tabcontent" style="display:none">
+          <p>* If the table is empty, meaning that there is no record in related tab</p>
+          <table class="table">
+            <thead>
+              <th>LabID</th>
+              <th>LabResultOffset</th>
+              <th>LabType</th>
+              <th>LabName</th>
+              <th>LabResult</th>
+              <th>LabMeasureNameSystem</th>
+            </thead>
+            <tbody>
+              {% for i in lab %}
+                <tr>
+                  <td>{{ i.labid}}</td>
+                  <td>{{ i.labresultoffset }}</td>
+                  <td>{{ i.labtypeid}}</td>
+                  <td>{{ i.labname }}</td>
+                  <td>{{ i.labresult}}</td>
+                  <td>{{ i.labmeasurenamesystem }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="microlab" class="tabcontent" style="display:none">
+          <p>* If the table is empty, meaning that there is no record in related tab</p>
+          <table class="table">
+            <thead>
+              <th>MicroLabID</th>
+              <th>CultureTakenOffset</th>
+              <th>CultureSite</th>
+              <th>Organism</th>
+              <th>Antibiotic</th>
+              <th>SensitivityLevel</th>
+            </thead>
+            <tbody>
+              {% for i in microlab %}
+                <tr>
+                  <td>{{ i.microlabid}}</td>
+                  <td>{{ i.culturetakenoffset }}</td>
+                  <td>{{ i.culturesite}}</td>
+                  <td>{{ i.organism }}</td>
+                  <td>{{ i.antibiotic}}</td>
+                  <td>{{ i.sensitivitylevel }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="medication" class="tabcontent" style="display:none">
+          <p>* If the table is empty, meaning that there is no record in related tab</p>
+          <table class="table">
+            <thead>
+              <th>MedicationID</th>
+              <th>DrugOffset</th>
+              <th>DrugName</th>
+              <th>Dosage</th>
+              <th>Routeadmin</th>
+            </thead>
+            <tbody>
+              {% for i in medication %}
+                <tr>
+                  <td>{{ i.medicationid }}</td>
+                  <td>{{ i.drugoffset }}</td>
+                  <td>{{ i.drugname }}</td>
+                  <td>{{ i.dosage }}</td>
+                  <td>{{ i.routeadmin}}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div id="allergy" class="tabcontent" style="display:none">
+          <p>* If the table is empty, meaning that there is no record in related tab</p>
+          <table class="table">
+            <thead>
+              <th>AllergyID</th>
+              <th>AllergyOffset</th>
+              <th>AllergyType</th>
+              <th>AllergyName</th>
+            </thead>
+            <tbody>
+              {% for i in allergy %}
+                <tr>
+                  <td>{{ i.allergyid }}</td>
+                  <td>{{ i.allergyoffset }}</td>
+                  <td>{{ i.allergytype }}</td>
+                  <td>{{ i.allergyname}}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <br>
+        <button class="button is-link is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+
+      </div>
+
+      
+      
+    </section>
+  </body>
+</html>

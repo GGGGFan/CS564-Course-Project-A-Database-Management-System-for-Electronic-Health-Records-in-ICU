@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>Home</title>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    </head>
+    <body>
+        <section class="section">
+            <div class="container">
+                <h1 class="title"><a href="{% url 'home' %}">eICU Management System</a></h1>
+
+                <p>You are login, Welcome Doctor: <a href="#">{{ user.username }}</a></p>
+
+                <div class="column"></div>
+                <div class="tabs">
+                    <ul>
+                        <li class="tablinks"><a>Insertion</a></li>
+                        <li class="tablinks is-active"><a>Update</a></li>
+                        <li class="tablinks"><a>Query</a></li>
+                        <li class="tablinks"><a>Statistics</a></li>
+                    </ul>
+                </div>
+
+                <p>The Stay ID is {{ stayid }}</p>
+                <br>
+                
+                <div id="selectID">
+                    <form action="{% url 'modify_data_select' %}" id = "modifyForm">
+                        <p>Record you want to modify (Select the record ID): </p>
+                        <div id="part"></div>
+                        <br>
+                        <input type="hidden" name="datafield" value={{datafield}}>
+                        <button class="button is-link is-small" type="submit" name="" value="submitID">Submit</button>
+                        <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+                    
+                    </form>
+                </div>
+
+                <script>
+                    // Get the id list
+                    var typeIDlist = {{ typeid|safe }};
+
+                    // var formdiv = document.getElementById('modifyForm');
+                    var part = document.getElementById('part')
+                    var selectlist = document.createElement('select');
+                    selectlist.setAttribute('name', 'typeID');
+                    part.appendChild(selectlist);
+
+                    for(i=0; i<typeIDlist.length; i++){
+                        console.log(typeIDlist[i]);
+                        var typekindid = typeIDlist[i];
+                        console.log(typekindid);
+                        var a1 = document.createElement("option");
+                        a1.setAttribute('value', typekindid);
+                        a1.innerHTML = typekindid;
+                        selectlist.appendChild(a1);
+                    }
+
+                </script>
+                
+                <br>
+
+            </div>
+        </section>
+    </body>
+</html>

@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <section class="section"></section>
+      <div class="container">
+        <h1 class="title"><a href="{% url 'home' %}">eICU Management System</a></h1>
+
+        {% if perms.main.can_delete_user %}
+          <p>You are login, Welcome Admin: <a href="#">{{ user.username }}</a></p>
+        {% else %}
+          <p>You are login, Welcome Doctor: <a href="#">{{ user.username }}</a></p>
+        {% endif %}
+
+        <div class="column"></div>
+        <div class="tabs">
+          <ul>
+              <li class="tablinks is-active"><a>Insertion</a></li>
+              {% if perms.main.can_delete_user%}
+                <li class="tablinks"><a>Deletion</a></li>
+              {% else %}
+                <li class="tablinks"><a>Update</a></li>
+              {% endif %}
+              <li class="tablinks"><a>Query</a></li>
+              <li class="tablinks"><a>Statistics</a></li>
+          </ul>
+        </div>
+
+        
+
+        {% if datafield == 'diagnosis' %}
+          <h2 class="title is-4">Diagnosis</h2>
+          <p>The stay to be added record is {{ stayid }}.</p>
+          <br>
+          <form action="{% url 'data_added' %}">
+            <input type="hidden" name="stayid" value={{stayid}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <label class="label">ICD9 Code</label>
+            <input type="text" name="icd9code" value=""><br>
+            <br>
+            <label class="label">Diagnosis Offset</label>
+            <input type="text" name="diagnosisoffset" value=""><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Add">Add</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+          </form>
+        {% endif%}
+
+        {% if datafield == 'lab' %}
+          <h2 class="title is-4">Lab</h2>
+          <p>The stay to be added record is {{ stayid }}.</p>
+          <br>
+          <form action="{% url 'data_added' %}">
+            <input type="hidden" name="stayid" value={{stayid}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <label class="label">Lab Type</label>
+            <input type="text" name="labType" value=""><br>
+            <br>
+            <label class="label">Lab Name</label>
+            <input type="text" name="labName" value=""><br>
+            <br>
+            <label class="label">Lab Result</label>
+            <input type="text" name="labResult" value=""><br>
+            <br>
+            <label class="label">Lab Measure Name System</label>
+            <input type="text" name="labMeasureNameSystem" value=""><br>
+            <br>
+            <label class="label">Lab Result Offset</label>
+            <input type="text" name="labResultOffset" value=""><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Add">Add</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+            
+          </form>
+        {% endif%}
+
+        {% if datafield == 'microlab' %}
+          <h2 class="title is-4">MicroLab</h2>
+          <p>The stay to be added record is {{ stayid }}.</p>
+          <br>
+          <form action="{% url 'data_added' %}">
+            <input type="hidden" name="stayid" value={{stayid}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <label class="label">Organism</label>
+            <input type="text" name="organism" value=""><br>
+            <br>
+            <label class="label">CultureSite</label>
+            <input type="text" name="cultureSite" value=""><br>
+            <br>
+            <label class="label">SensitivityLevel</label>
+            <input type="text" name="sensitivityLevel" value=""><br>
+            <br>
+            <label class="label">Antibiotic</label>
+            <input type="text" name="antibiotic" value=""><br>
+            <br>
+            <label class="label">CultureTakenOffset</label>
+            <input type="text" name="cultureTakenOffset" value=""><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Add">Add</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+          </form>
+        {% endif%}
+
+        {% if datafield == 'medication' %}
+          <h2 class="title is-4">Medication</h2>
+          <p>The stay to be added record is {{ stayid }}.</p>
+          <br>
+          <form action="{% url 'data_added' %}">
+            <input type="hidden" name="stayid" value={{stayid}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <label class="label">RouteAdmin</label>
+            <input type="text" name="routeAdmin" value=""><br>
+            <br>
+            <label class="label">DrugName</label>
+            <input type="text" name="drugName" value=""><br>
+            <br>
+            <label class="label">Dosage</label>
+            <input type="text" name="dosage" value=""><br>
+            <br>
+            <label class="label">DrugOffset</label>
+            <input type="text" name="drugOffset" value=""><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Add">Add</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+            
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+          </form>
+        {% endif%}
+
+        {% if datafield == 'allergy' %}
+          <h2 class="title is-4">Allergy</h2>
+          <p>The stay to be added record is {{ stayid }}.</p>
+          <br>
+          <form action="{% url 'data_added' %}">
+            <input type="hidden" name="stayid" value={{stayid}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <label class="label">Allergy Name</label>
+            <input type="text" name="allergyName" value=""><br>
+            <br>
+            <label class="label">Allergy Type</label>
+            <input type="text" name="allergyType" value=""><br>
+            <br>
+            <label class="label">Allergy Offset</label>
+            <input type="text" name="allergyOffset" value=""><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Add">Add</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+            
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+          </form>
+        {% endif%}
+        
+        <br>
+      </div>
+    </section>
+  </body>
+</html>

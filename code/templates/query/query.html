@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <form action="{% url 'pt_result' %}">
+      Patient Id <input type="text" name="query_id" value="">
+      <br>
+      <input type="submit" name="" value="Query">
+    </form>
+    <a href="{% url 'home' %}">Back to Home</a>
+  </body>
+</html>

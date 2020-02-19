@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  Click to add a patient
+  <body>
+    <form action="{% url 'new_patient' %}">
+      <input type="submit" name="" value="Add a Patient">
+    </form>
+    <br>
+    Or you can add a stay for an existing patient. Data won't be changed by leaving space.
+    <br>
+    {%if no_pt %}
+      <b>Please input a valid patient ID!</b>
+      <br>
+    {%endif%}
+    <body>
+      <form action="{% url 'new_stay' %}">
+        Patient Id <input type="text" name="ptid" value=""><br>
+        Age <input type="number" name="new_age" value=""><br>
+        Gender <input type="text" name="new_gender" value=""><br>
+        Ethnicity <input type="text" name="new_ethnicity" value=""><br>
+        Admission Weight (kg) <input type="number" name="new_admisionweight" value=""><br>
+        Admission Heights (cm) <input type="number" name="new_admisionheight" value=""><br>
+        Unit Type <input type="text" name="new_unittype" value=""><br>
+        Discharge Status <input type="text" name="new_dischargestatus" value=""><br>
+        <div class="control">
+          <button class="button is-primary" name="" value="Add a Stay">Submit</button>
+        </div>
+      </form>
+
+    <br>
+    Or you can add data for an existing stay.
+    <br>
+    {%if no_stay %}
+      <b>Please input a valid stay ID!</b>
+      <br>
+    {%endif%}
+    <body>
+      <form action="{% url 'new_data' %}">
+        StayId <input type="text" name="stayid" value=""><br>
+        Data field you want to add
+        <select name='datafield'>
+            <option value="diagnosis">Diagnosis</option>
+            <option value="lab">Lab</option>
+            <option value="microlab">Microlab</option>
+            <option value="medicaltion">Medication</option>
+            <option value="allergy">Allergy</option>
+        </select><br>
+        <input type="submit" name="" value="Add Data to this Stay">
+      </form>
+
+
+    <br>
+    <a href="{% url 'home' %}">Back to Home</a>
+  </body>
+</html>

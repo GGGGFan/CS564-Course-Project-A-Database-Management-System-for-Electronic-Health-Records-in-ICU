@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Visualize</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title"><a href="{% url 'index' %}">eICU Management System</a></h1>
+
+        {% if perms.query.view_graph %}
+          {% if perms.main.can_delete_user %}
+            <p>You are login, Welcome Admin: <a href="#">{{ user.username }}</a></p>
+          {% else %}
+            <p>You are login, Welcome Doctor: <a href="#">{{ user.username }}</a></p>
+          {% endif %}
+        {% else %}
+          <p>You are login, Welcome Patient: <a href="#">{{ user.username }}</a></p>
+        {% endif %}
+
+        <br>
+        {% if perms.query.view_graph %}
+          <div class="tabs">
+            <ul>
+                <li class="tablinks"><a>Insertion</a></li>
+                <li class="tablinks"><a>Update</a></li>
+                <li class="tablinks"><a>Query</a></li>
+                <li class="tablinks is-active"><a>Statistics</a></li>
+            </ul>
+          </div>
+        {% else %}
+          <div class="tabs">
+            <ul>
+              <li class="tablinks is-active"><a>Query</a></li>
+            </ul>
+          </div>
+        {% endif %}
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+        <script type="text/javascript">
+        // Load google charts
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+
+        // Draw the chart and set the chart values
+        function drawChart() {
+
+          var disease_data = new google.visualization.DataTable();
+          disease_data.addColumn('string');
+          disease_data.addColumn('number');
+          {%for i in disease_stats %}
+            disease_data.addRow(['{{ i.0 }}', {{ i.1 }}]);
+          {%endfor%}
+
+
+          var barchart_options = {title:'Top 10 Diseases for the Defined Group, Age:{{min_age}}-{{max_age}}, Gender:{{gender}}, Ethnicity:{{ethnicity}}',
+                                  width:1000,
+                                  height:600,
+                                  titleTextStyle: {
+                                    color: '#33334d',    // any HTML string color ('red', '#cc00cc')
+                                    fontName: 'Arial', // i.e. 'Times New Roman'
+                                    bold: true,    // true or false
+                                    italic: false   // true of false
+                                },
+                                  is3D: true,
+                                  legend: 'none'};
+          var barchart = new google.visualization.BarChart(document.getElementById('disease_div'));
+          barchart.draw(disease_data, barchart_options);
+
+        }
+        </script>
+        <div id="disease_div" style="border: 1px solid #ccc"></div><br>
+        <button class="button is-link is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+      </div>
+</html>

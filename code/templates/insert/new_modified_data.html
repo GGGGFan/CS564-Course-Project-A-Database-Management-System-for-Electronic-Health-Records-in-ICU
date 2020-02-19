@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+  </head>
+  <body>
+    <section class="section">
+      <div class="container">
+        <h1 class="title"><a href="{% url 'home' %}">eICU Management System</a></h1>
+
+        <p>You are login, Welcome Doctor: <a href="#">{{ user.username }}</a></p>
+
+        <div class="column"></div>
+        <div class="tabs">
+          <ul>
+              <li class="tablinks"><a>Insertion</a></li>
+              <li class="tablinks is-active"><a>Update</a></li>
+              <li class="tablinks"><a>Query</a></li>
+              <li class="tablinks"><a>Statistics</a></li>
+          </ul>
+        </div>
+
+        {% if datafield == 'diagnosis' %}
+          <br>
+          
+          <h2 class="title is-4">Diagnosis</h2>
+          <p>{{ datafield }} ID is {{ typeID }}</p>
+          <br>
+          <form action="{% url 'modify_data_modified' %}" id="diagnosisForm">
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <input type="hidden" name="typeID" value={{typeID}}>
+            
+            <label class="label"> ICD9 Code</label>
+            <input id = "icd9code" type="text" name="icd9code" ><br>
+            <br>
+            <label class="label"> Diagnosis Offset</label>
+            <input id = "diagnosisoffset" type="text" name="diagnosisoffset" ><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Modified">Modify</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+            
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+            
+            <script>
+              // This is the script for automatically generate part of the page
+              var dictA = {{ dictAttri|safe }};
+              console.log(dictA.icd9code)
+
+              var icd9code = document.getElementById("icd9code");
+              icd9code.setAttribute("value", dictA.icd9code);
+              var diagnosisoffset = document.getElementById("diagnosisoffset");
+              diagnosisoffset.setAttribute("value", dictA.diagnosisoffset);
+
+            </script>
+
+          </form>
+
+        {% endif%}
+
+        {% if datafield == 'lab' %}
+          <h2 class="title is-4">Lab</h2>
+          <p>{{ datafield }} ID is {{ typeID }}</p>
+          <form action="{% url 'modify_data_modified' %}">
+            <input type="hidden" name="typeID" value={{typeID}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <br>
+            <label class="label"> Lab Type</label>
+            <input type="text" name="labType" id="labType"><br>
+            <br>
+            <label class="label"> Lab Name</label>
+            <input type="text" name="labName" id="labName"><br>
+            <br>
+            <label class="label"> Lab Result</label>
+            <input type="text" name="labResult" id="labResult"><br>
+            <br>
+            <label class="label"> Lab Measure Name System</label>
+            <input type="text" name="labMeasureNameSystem" id="labMeasureNameSystem"><br>
+            <br>
+            <label class="label"> Lab Result Offset</label>
+            <input type="text" name="labResultOffset" id="labResultOffset"><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Modified">Modify</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+            
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+            <script>
+              // This is the script for automatically generate part of the page
+              var dictA = {{ dictAttri|safe }};
+              console.log(dictA.icd9code)
+  
+              var labType = document.getElementById("labType");
+              labType.setAttribute("value", dictA.labtypeid);
+              var labName = document.getElementById("labName");
+              labName.setAttribute("value", dictA.labname);
+              var labResult = document.getElementById("labResult");
+              labResult.setAttribute("value", dictA.labresult);
+              var labMeasureNameSystem = document.getElementById("labMeasureNameSystem");
+              labMeasureNameSystem.setAttribute("value", dictA.labmeasurenamesystem);
+              var labResultOffset = document.getElementById("labResultOffset");
+              labResultOffset.setAttribute("value", dictA.labresultoffset);
+    
+            </script>
+            
+          </form>
+        {% endif%}
+
+        {% if datafield == 'microlab' %}
+          <h2 class="title is-4">Microlab</h2>
+          <p>{{ datafield }} ID is {{ typeID }}</p>
+          <form action="{% url 'modify_data_modified' %}">
+            <input type="hidden" name="typeID" value={{typeID}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <br>
+            <label class="label"> Organism</label>
+             <input type="text" name="organism" id="organism"><br>
+            <br>
+            <label class="label"> CultureSite</label>
+            <input type="text" name="cultureSite" id="cultureSite"><br>
+            <br>
+            <label class="label"> SensitivityLevel</label>
+            <input type="text" name="sensitivityLevel" id="sensitivityLevel"><br>
+            <br>
+            <label class="label"> Antibiotic</label>
+            <input type="text" name="antibiotic" id="antibiotic"><br>
+            <br>
+            <label class="label"> CultureTakenOffset</label>
+            <input type="text" name="cultureTakenOffset" id="cultureTakenOffset"><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Modified">Modify</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+            
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+            <script>
+              // This is the script for automatically generate part of the page
+              var dictA = {{ dictAttri|safe }};
+              console.log(dictA.icd9code)
+  
+              var organism = document.getElementById("organism");
+              organism.setAttribute("value", dictA.organism);
+              var cultureSite = document.getElementById("cultureSite");
+              cultureSite.setAttribute("value", dictA.culturesite);
+              var sensitivityLevel = document.getElementById("sensitivityLevel");
+              sensitivityLevel.setAttribute("value", dictA.sensitivitylevel);
+              var antibiotic = document.getElementById("antibiotic");
+              antibiotic.setAttribute("value", dictA.antibiotic);
+              var cultureTakenOffset = document.getElementById("cultureTakenOffset");
+              cultureTakenOffset.setAttribute("value", dictA.culturetakenoffset);
+    
+            </script>
+
+          </form>
+        {% endif%}
+
+        {% if datafield == 'medication' %}
+          <h2 class="title is-4">Medication</h2>
+          <p>{{ datafield }} ID is {{ typeID }}</p>
+          <form action="{% url 'modify_data_modified' %}">
+            <input type="hidden" name="typeID" value={{typeID}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <br>
+            <label class="label"> RouteAdmin</label>
+            <input type="text" name="routeAdmin" id="routeAdmin"><br>
+            <br>
+            <label class="label"> DrugName</label>
+            <input type="text" name="drugName" id="drugName"><br>
+            <br>
+            <label class="label"> Dosage</label>
+            <input type="text" name="dosage" id="dosage"><br>
+            <br>
+            <label class="label"> DrugOffset</label>
+            <input type="text" name="drugOffset" id="drugOffset"><br>
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Modified">Modify</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+            
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+            <script>
+              // This is the script for automatically generate part of the page
+              var dictA = {{ dictAttri|safe }};
+              console.log(dictA.icd9code)
+  
+              var routeAdmin = document.getElementById("routeAdmin");
+              routeAdmin.setAttribute("value", dictA.routeadmin);
+              var drugName = document.getElementById("drugName");
+              drugName.setAttribute("value", dictA.drugname);
+              var dosage = document.getElementById("dosage");
+              dosage.setAttribute("value", dictA.dosage);
+              var drugOffset = document.getElementById("drugOffset");
+              drugOffset.setAttribute("value", dictA.drugoffset);
+    
+            </script>
+
+
+          </form>
+        {% endif%}
+
+        {% if datafield == 'allergy' %}
+          <h2 class="title is-4">Allergy</h2>
+          <p>{{ datafield }} ID is {{ typeID }}</p>
+          <form action="{% url 'modify_data_modified' %}">
+            <input type="hidden" name="typeID" value={{typeID}}>
+            <input type="hidden" name="datafield" value={{datafield}}>
+            <br>
+            <label class="label"> Allergy Name</label>
+            <input type="text" name="allergyName" id="allergyName"><br>
+            <br>
+            <label class="label"> Allergy Type</label>
+            <input type="text" name="allergyType" id="allergyType"><br>
+            <br>
+            <label class="label"> Allergy Offset</label>
+            <input type="text" name="allergyOffset" id="allergyOffset"><br>
+
+            {% if messages %}
+              <script>
+                {% for message in messages %}
+                  alert('{{ message.message }}');
+                {% endfor %}
+              </script>
+            {% endif %}
+
+            <script>
+              // This is the script for automatically generate part of the page
+              var dictA = {{ dictAttri|safe }};
+              console.log(dictA.icd9code)
+  
+              var allergyName = document.getElementById("allergyName");
+              allergyName.setAttribute("value", dictA.allergyname);
+              var allergyType = document.getElementById("allergyType");
+              allergyType.setAttribute("value", dictA.allergytype);
+              var allergyOffset = document.getElementById("allergyOffset");
+              allergyOffset.setAttribute("value", dictA.allergyoffset);
+    
+            </script>
+
+            <br>
+            <button class="button is-link is-small" type="submit" name="" value="Modified">Modify</button>
+            <button class="button is-primary is-small" type="button" name="" value="Back" onClick="javascript:history.go(-1);">Return</button>
+            
+          </form>
+        {% endif%}
+        
+        <br>
+
+      </div>
+    </section>
+  </body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.5/css/bulma.min.css">
+    <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+    <title></title>
+  </head>
+  Delete a patient
+  <body>
+    <!-- This is the furm for submit the patient ID to delete all stay under it -->
+    <form action="{% url 'delete_pt' %}">
+      Patient Id <input type="text" name="ptid" value="">
+      <input type="submit" name="" value="Delete a Patient">
+    </form>
+    <br>
+    You can also delete a single stay from a patient.<br>
+    <!-- This is the form to submit the patient ID to search for stay under it -->
+    <form action="{% url 'delete_stay' %}">
+      Patient Id <input type="text" name="ptid" value="">
+      <input type="submit" name="" value="Select a Patient">
+    </form>
+    <a href="{% url 'home' %}">Back to Home</a>
+  </body>
+</html>

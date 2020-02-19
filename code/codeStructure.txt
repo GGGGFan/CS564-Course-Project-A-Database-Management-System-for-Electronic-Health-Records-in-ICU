@@ -1,0 +1,122 @@
+Folder PATH listing
+Volume serial number is C66E-2C6F
+E:.
+|   codeStructure.txt
+|   db.sqlite3
+|   manage.py
+|   README.md
+|   
++---delete
+|   |   admin.py
+|   |   apps.py
+|   |   delete_views.py
+|   |   tests.py
+|   |   __init__.py
+|   |   
+|   \---migrations
+|           __init__.py
+|           
++---eicu_v0
+|       settings.py
+|       urls.py
+|       wsgi.py
+|       __init__.py
+|       
++---home
+|   |   admin.py
+|   |   apps.py
+|   |   home_views.py
+|   |   models.py
+|   |   tests.py
+|   |   __init__.py
+|   |   
+|   \---migrations
+|           __init__.py
+|           
++---insert
+|   |   admin.py
+|   |   apps.py
+|   |   insert_views.py
+|   |   tests.py
+|   |   __init__.py
+|   |   
+|   \---migrations
+|           __init__.py
+|           
++---query
+|   |   admin.py
+|   |   apps.py
+|   |   models.py
+|   |   query_views.py
+|   |   tests.py
+|   |   __init__.py
+|   |   
+|   \---migrations
+|           0001_initial.py
+|           __init__.py
+|           
++---stats
+|   |   admin.py
+|   |   apps.py
+|   |   models.py
+|   |   stats_views.py
+|   |   tests.py
+|   |   __init__.py
+|   |   
+|   \---migrations
+|           __init__.py
+|           
++---templates
+|   +---delete
+|   |       delete.html
+|   |       delete_pt.html
+|   |       delete_stay.html
+|   |       delete_success.html
+|   |       
+|   +---home
+|   |       home.html
+|   |       home2.html
+|   |       
+|   +---insert
+|   |       data_added.html
+|   |       insert.html
+|   |       new_data.html
+|   |       new_modified_data.html
+|   |       new_modified_id_selection.html
+|   |       new_patient.html
+|   |       new_stay.html
+|   |       
+|   +---query
+|   |       pt_result.html
+|   |       query.html
+|   |       stayinfo.html
+|   |       
+|   +---registration
+|   |       login.html
+|   |       password_change_done.html
+|   |       password_change_form.html
+|   |       password_reset_complete.html
+|   |       password_reset_confirm.html
+|   |       password_reset_done.html
+|   |       password_reset_form.html
+|   |       
+|   +---statistics
+|   |       icd_demograph.html
+|   |       patients_disease.html
+|   |       
+|   \---users
+|           register.html
+|           
+\---users
+    |   admin.py
+    |   apps.py
+    |   forms.py
+    |   models.py
+    |   tests.py
+    |   urls.py
+    |   views.py
+    |   __init__.py
+    |   
+    \---migrations
+            __init__.py
+            
